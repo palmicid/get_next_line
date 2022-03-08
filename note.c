@@ -1,39 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   note.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/04 22:26:05 by pruangde          #+#    #+#             */
-/*   Updated: 2022/03/08 23:55:07 by pruangde         ###   ########.fr       */
+/*   Created: 2022/03/08 23:12:11 by pruangde          #+#    #+#             */
+/*   Updated: 2022/03/08 23:54:53 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	for_malloc
+//function malloc new space for buf
+{
+
+}
 
 char	*get_next_line(int fd)
 {
-	int		rfd;
-	char	*buf;
-	char	*str;
+	int			rfd;	//read fd
+	char		*str;	//for return
+	static char	*tmp;	//store if more than one line | store all at tmp
+	char		*buf;	//read
 
+	//cx fd
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	buf = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!buf)
-		return (NULL);
-	rfd = read(fd, buf, BUFFER_SIZE);
-	if (rfd == -1)
-		return (NULL);
-	buf[BUFFER_SIZE + 1] = '\0';
-	str = ft_strjoin(str, buf);
-	
-	while (read(fd, buf, BUFFER_SIZE) > 0)
-	{
-		
-
-	}
+	//cx buf if not null cont strjoin / if not go to malloc
+	//do the same as inside while
+	//while (read(fd, buf, BUFFER_SIZE) > 0)
+	//break if find \n / \0
+	//transfer (tmp with same fd to str)
+	//
+	//return (str);
 }
