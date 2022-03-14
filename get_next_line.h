@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 13:15:27 by pruangde          #+#    #+#             */
-/*   Updated: 2022/03/09 16:06:16 by pruangde         ###   ########.fr       */
+/*   Updated: 2022/03/13 18:05:33 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,22 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+typedef struct s_lstfd
+{
+	int				fd;
+	char			*str;
+	struct s_lstfd	*next;
+}	t_lstfd;
+
+
 char	*get_next_line(int fd);
+int		find_n(char *s);
+char	*relocate(char *s);
+
+size_t	sp_strlen(const char *s, int mode);
+char	*ft_strjoin(char *s1, char *s2);
+char	*sp_strdup_reloc( char *s);
+void	*ft_memcpy(void *dest, const void *src, size_t n);
+void	*ft_calloc(size_t count, size_t size);
 
 #endif
