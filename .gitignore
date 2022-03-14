@@ -1,4 +1,5 @@
 tester/
+GNL_util_test/
 
 # Prerequisites
 *.d
