@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/12 15:00:48 by pruangde          #+#    #+#             */
-/*   Updated: 2022/03/15 09:05:05 by pruangde         ###   ########.fr       */
+/*   Updated: 2022/03/15 09:11:36 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	find_n(char *s)
 	if (!s)
 		return (0);
 	i = 0;
-	while (s[i] || s[i] != '\n')
+	while (s[i] != '\0' || s[i] != '\n')
 		i++;
 	if (s[i] == '\n')
 		return (1);
