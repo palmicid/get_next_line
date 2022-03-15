@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/12 15:00:48 by pruangde          #+#    #+#             */
-/*   Updated: 2022/03/15 09:11:36 by pruangde         ###   ########.fr       */
+/*   Updated: 2022/03/15 12:55:06 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,12 @@ int	find_n(char *s)
 	if (!s)
 		return (0);
 	i = 0;
-	while (s[i] != '\0' || s[i] != '\n')
+	while (s[i] != '\0')
+	{
+		if (s[i] == '\n')
+			return (1);
 		i++;
-	if (s[i] == '\n')
-		return (1);
+	}
 	return (0);
 }
 
@@ -39,17 +41,25 @@ char	*get_next_line(int fd)
 	buf[BUFFER_SIZE] = '\0';
 	rfd = read(fd, buf, BUFFER_SIZE);
 	if (rfd < 0 || (rfd == 0 && !tmp))
+	{
+		tmp = NULL;
 		return (NULL);
+	}
 	//----------------ok------------------------
 	while (rfd > 0)
 	{
 		tmp = ft_strjoin(tmp, buf);
 		if (find_n(tmp))
+		{
 			break ;
+		}
 		rfd = read(fd, buf, BUFFER_SIZE);
 	}
 	ret = sp_strdup_reloc(tmp);
 	if (rfd == 0 && (sp_strlen(tmp, 0) == 0))
+	{
 		free(tmp);
+		tmp = NULL;
+	}
 	return (ret);
 }

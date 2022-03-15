@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 22:27:38 by pruangde          #+#    #+#             */
-/*   Updated: 2022/03/15 09:05:01 by pruangde         ###   ########.fr       */
+/*   Updated: 2022/03/15 12:55:03 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,10 @@ char	*ft_strjoin(char *s1, char *s2)
 	while (s2[j])
 		str[i++] = s2[j++];
 	if (s1)
+	{
 		free(s1);
+		s1 = NULL;
+	}
 	return (str);
 }
 
@@ -78,11 +81,12 @@ char	*sp_strdup_reloc(char *s)
 	if (!dup)
 		return (NULL);
 	dup = ft_memcpy(dup, s, len);
-	tempo = (char *)ft_calloc(sp_strlen((s + len), 0), sizeof(char));
+	tempo = (char *)ft_calloc(sp_strlen((s + len), 0) + 1, sizeof(char));
 	tempo = ft_memcpy(tempo, s + len, sp_strlen(s + len, 0));
 	free(s);
 	s = tempo;
 	free(tempo);
+	tempo = NULL;
 	return (dup);
 }
 
