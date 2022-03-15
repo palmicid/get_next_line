@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/12 15:00:48 by pruangde          #+#    #+#             */
-/*   Updated: 2022/03/14 08:07:15 by pruangde         ###   ########.fr       */
+/*   Updated: 2022/03/15 09:05:05 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,19 @@ char	*get_next_line(int fd)
 {
 	static char	*tmp;
 	char		*ret;
-	char		*buf;
+	char		buf[BUFFER_SIZE + 1];
 	int			rfd;
 
-	if (fd < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	buf = (char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-	if (!buf)
-		return (NULL);
+	buf[BUFFER_SIZE] = '\0';
 	rfd = read(fd, buf, BUFFER_SIZE);
+	if (rfd < 0 || (rfd == 0 && !tmp))
+		return (NULL);
+	//----------------ok------------------------
 	while (rfd > 0)
 	{
-		ft_strjoin(tmp, buf);
+		tmp = ft_strjoin(tmp, buf);
 		if (find_n(tmp))
 			break ;
 		rfd = read(fd, buf, BUFFER_SIZE);
@@ -50,6 +51,5 @@ char	*get_next_line(int fd)
 	ret = sp_strdup_reloc(tmp);
 	if (rfd == 0 && (sp_strlen(tmp, 0) == 0))
 		free(tmp);
-	free(buf);
 	return (ret);
 }

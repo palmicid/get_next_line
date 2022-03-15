@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 13:15:27 by pruangde          #+#    #+#             */
-/*   Updated: 2022/03/15 04:09:14 by pruangde         ###   ########.fr       */
+/*   Updated: 2022/03/15 05:18:21 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ char	*get_next_line(int fd);
 int		find_n(char *s);
 char	*relocate(char *s);
 
+int		find_n(char *s);
 size_t	sp_strlen(const char *s, int mode);
 char	*ft_strjoin(char *s1, char *s2);
 char	*sp_strdup_reloc( char *s);

@@ -6,11 +6,25 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 22:27:38 by pruangde          #+#    #+#             */
-/*   Updated: 2022/03/15 09:05:01 by pruangde         ###   ########.fr       */
+/*   Updated: 2022/03/15 04:16:20 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+int	find_n(char *s)
+{
+	int	i;
+
+	if (!s)
+		return (0);
+	i = 0;
+	while (s[i] || s[i] != '\n')
+		i++;
+	if (s[i] == '\n')
+		return (1);
+	return (0);
+}
 
 //mode 1 find \n , mode 0 just \0
 size_t	sp_strlen(const char *s, int mode)
@@ -27,7 +41,6 @@ size_t	sp_strlen(const char *s, int mode)
 	{
 		while (s[i] && s[i] != '\n')
 			i++;
-		i++;
 	}
 	return (i);
 }
@@ -41,8 +54,6 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	if (!s1 && !s2)
 		return (NULL);
-	else if (!s1)
-		len = sp_strlen(s2, 0);
 	else
 		len = sp_strlen(s1, 0) + sp_strlen(s2, 0);
 	str = (char *)ft_calloc((len + 1), sizeof(char));
@@ -50,16 +61,12 @@ char	*ft_strjoin(char *s1, char *s2)
 		return (NULL);
 	i = 0;
 	j = 0;
-	if (s1)
-	{
-		while (s1[j])
-			str[i++] = s1[j++];
-	}
+	while (s1[j])
+		str[i++] = s1[j++];
 	j = 0;
 	while (s2[j])
 		str[i++] = s2[j++];
-	if (s1)
-		free(s1);
+	free(s1);
 	return (str);
 }
 
@@ -73,11 +80,11 @@ char	*sp_strdup_reloc(char *s)
 	//size_t	st;
 
 	mode = (size_t)find_n(s);
-	len = sp_strlen(s, mode);
-	dup = (char *)ft_calloc((len + 1), (sizeof(char)));
+	len = sp_strlen(s, 1) + 1;
+	dup = (char *)ft_calloc((len + mode), (sizeof(char)));
 	if (!dup)
 		return (NULL);
-	dup = ft_memcpy(dup, s, len);
+	dup = ft_memcpy(dup, s, len + mode);
 	tempo = (char *)ft_calloc(sp_strlen((s + len), 0), sizeof(char));
 	tempo = ft_memcpy(tempo, s + len, sp_strlen(s + len, 0));
 	free(s);
