@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/06 13:15:27 by pruangde          #+#    #+#             */
-/*   Updated: 2022/03/15 04:09:14 by pruangde         ###   ########.fr       */
+/*   Updated: 2022/03/20 00:45:54 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,18 @@ typedef struct s_lstfd
 {
 	int				fd;
 	char			*str;
+	size_t			pos;
 	struct s_lstfd	*next;
 }	t_lstfd;
 
 
 char	*get_next_line(int fd);
 int		find_n(char *s);
-char	*relocate(char *s);
+
 
 size_t	sp_strlen(const char *s, int mode);
 char	*ft_strjoin(char *s1, char *s2);
-char	*sp_strdup_reloc( char *s);
+char	*sp_strdup_reloc(char *s);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 void	*ft_calloc(size_t count, size_t size);
 
