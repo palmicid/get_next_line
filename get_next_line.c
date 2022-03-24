@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/12 15:00:48 by pruangde          #+#    #+#             */
-/*   Updated: 2022/03/20 04:00:20 by pruangde         ###   ########.fr       */
+/*   Updated: 2022/03/24 23:44:57 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,9 @@ char	*ft_strjoin(char *s1, char *s2)
 			str[i++] = s1[j++];
 	}
 	j = 0;
-	while (s2[j])
+	while (s2[j] && j < (size_t)rfd)
 		str[i++] = s2[j++];
+	str[i] = s2[j];
 	if (s1)
 	{
 		free(s1);
@@ -99,15 +100,12 @@ char	*get_next_line(int fd)
 	{
 		tmp = ft_strjoin(tmp, buf);
 		if (find_n(tmp + point))
-		{
 			break ;
-		}
 		rfd = read(fd, buf, BUFFER_SIZE);
+		buf[rfd] = '\0';
 	}
 	ret = sp_strdup_reloc(tmp + point);
 	point += sp_strlen(ret, 0);
-	//printf("rfd = %d\n", rfd);
-	//printf("len = %zu\n", sp_strlen(tmp + point, 0));
 	if (rfd == 0 && (sp_strlen(tmp + point, 0) == 0))
 	{
 		free(tmp);
