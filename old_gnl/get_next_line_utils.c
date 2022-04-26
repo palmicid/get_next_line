@@ -6,7 +6,7 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/04 22:27:38 by pruangde          #+#    #+#             */
-/*   Updated: 2022/04/08 01:55:40 by pruangde         ###   ########.fr       */
+/*   Updated: 2022/03/24 01:17:47 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ size_t	sp_strlen(const char *s, int mode)
 	size_t	i;
 
 	i = 0;
-	if (!s)
-		return (i);
 	if (mode == 0)
 	{
 		while (s[i] != '\0')
@@ -32,23 +30,6 @@ size_t	sp_strlen(const char *s, int mode)
 		i++;
 	}
 	return (i);
-}
-
-//find \n ret 1 if found
-int find_n(char *s)
-{
-    int i;
-
-	if (!s)
-		return (0);
-    i = 0;
-    while (s[i] != '\0')
-    {
-		if (s[i] == '\n')
-			return (1);
-        i++;
-    }
-    return (0);
 }
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)
@@ -64,4 +45,28 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 		i++;
 	}
 	return (dest);
+}
+
+void	*ft_calloc(size_t count, size_t size)
+{
+	size_t	i;
+	size_t	len;
+	void	*ptr;
+
+	if (count == 0 || size == 0)
+	{
+		count = 1;
+		size = 1;
+	}
+	ptr = (void *)malloc(count * size);
+	if (!ptr)
+		return (NULL);
+	len = count * size;
+	i = 0;
+	while (i < len)
+	{
+		*(char *)(ptr + i) = 0;
+		i++;
+	}
+	return (ptr);
 }

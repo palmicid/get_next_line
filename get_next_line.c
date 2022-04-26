@@ -6,28 +6,11 @@
 /*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/12 15:00:48 by pruangde          #+#    #+#             */
-/*   Updated: 2022/03/25 23:36:49 by pruangde         ###   ########.fr       */
+/*   Updated: 2022/04/08 01:55:35 by pruangde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-//find \n ret 1 if found 
-int	find_n(char *s)
-{
-	int	i;
-
-	if (!s)
-		return (0);
-	i = 0;
-	while (s[i] != '\0')
-	{
-		if (s[i] == '\n')
-			return (1);
-		i++;
-	}
-	return (0);
-}
 
 char	*ft_strjoin(char *s1, char *s2)
 {
@@ -38,24 +21,18 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	if (!s1 && !s2)
 		return (NULL);
-	else if (!s1)
-		len = sp_strlen(s2, 0);
-	else
-		len = sp_strlen(s1, 0) + sp_strlen(s2, 0);
-	str = (char *)ft_calloc((len + 1), sizeof(char));
+	len = sp_strlen(s1, 0) + sp_strlen(s2, 0);
+	str = (char *)malloc((len + 1) * sizeof(char));
 	if (!str)
 		return (NULL);
 	i = 0;
 	j = 0;
-	if (s1)
-	{
-		while (s1[j])
-			str[i++] = s1[j++];
-	}
+	while (s1 && s1[i])
+		str[i++] = s1[j++];
 	j = 0;
 	while (s2[j])
 		str[i++] = s2[j++];
-	str[i] = s2[j];
+	str[i] = '\0';
 	if (s1)
 	{
 		free(s1);
@@ -64,57 +41,113 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (str);
 }
 
-char	*sp_strdup_reloc(char *s)
+char	*sp_strdup_reloc(t_lstfd *data)
 {
+	size_t	new_len;
 	size_t	len;
 	char	*dup;
+	char 	*tmp;
 	size_t	mode;
 
-	mode = (size_t)find_n(s);
-	len = sp_strlen(s, mode);
-	dup = (char *)ft_calloc((len + 1), (sizeof(char)));
+	mode = (size_t)find_n(data->str);
+	len = sp_strlen(data->str, mode);
+	dup = (char *)malloc((len + 1) * (sizeof(char)));
 	if (!dup)
 		return (NULL);
-	dup = ft_memcpy(dup, s, len);
+	dup = ft_memcpy(dup, data->str, len);
+	dup[len] = '\0';
+	new_len = sp_strlen((data->str + len), 0);
+	tmp = (char *)malloc((new_len + 1) * sizeof(char));
+	tmp = ft_memcpy(tmp, data->str + len, new_len);
+	tmp[new_len] = '\0';
+	free(data->str);
+	data->str = tmp;
+	free(tmp);
+	tmp = NULL;
 	return (dup);
+}
+
+void	rdline(t_lstfd *data)
+{
+	char	buf[BUFFER_SIZE + 1];
+
+	data->rfd = read(data->fd, buf, BUFFER_SIZE);
+	if (data->rfd < 0 || (data->rfd == 0 && !data->str))
+	{
+		data->str = NULL;
+		return ;
+	}
+	buf[data->rfd] = '\0';
+	data->str = ft_strjoin(data->str, buf);
+	if (find_n(data->str))
+			return ;
+	while (data->rfd > 0)
+	{
+		data->rfd = read(data->fd, buf, BUFFER_SIZE);
+		buf[data->rfd] = '\0';
+		data->str = ft_strjoin(data->str, buf);
+ 		if (find_n(data->str))
+			break ;
+	}
+	return ;
+}
+
+t_lstfd	*c_new_lst(int fd)
+{
+	t_lstfd	*new;
+
+	new = (t_lstfd *)malloc(sizeof(t_lstfd));
+	if (!new)
+		return (NULL);
+	new->fd = fd;
+	new->rfd = 0;
+	new->str = (char *)malloc(1 * sizeof(char));
+	new->next = NULL;
+	return (new);
+}
+
+t_lstfd	*delstruct(t_lstfd *tmp)
+{
+	free(tmp->str);
+	return (NULL);
 }
 
 char	*get_next_line(int fd)
 {
-	static char		*tmp;
+	static t_lstfd	*data;
+	t_lstfd			*tmp = NULL;
 	char			*ret;
-	char			buf[BUFFER_SIZE + 1];
-	int				rfd;
-	static	size_t	point;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	rfd = read(fd, buf, BUFFER_SIZE);
-	if (rfd < 0 || (rfd == 0 && !tmp))
+	if (!data)
 	{
-		tmp = NULL;
-		return (NULL);
+		data = c_new_lst(fd);
+		tmp = data;
 	}
-	buf[rfd] = '\0';
-	while (rfd > 0)
+	else
 	{
-		tmp = ft_strjoin(tmp, buf);
-		if (find_n(tmp + point))
-			break ;
-		rfd = read(fd, buf, BUFFER_SIZE);
-		buf[rfd] = '\0';
+		//find fd in list
+		tmp = data;
 	}
-	ret = sp_strdup_reloc(tmp + point);
-	point += sp_strlen(ret, 0);
+	if (!(find_n(tmp->str)))
+		rdline(tmp);
+	ret = sp_strdup_reloc(tmp);
 	if (!sp_strlen(ret, 0))
 	{
 		free(ret);
 		ret = NULL;
 	}
-	if (rfd == 0 && (sp_strlen(tmp + point, 0) == 0))
+	if (tmp->rfd == 0 && !(tmp->str))
 	{
+		//new fx : 
+		//free str + del list + sort list + if nothing left free all 
 		free(tmp);
 		tmp = NULL;
+		data = NULL;
 	}
 	return (ret);
 }
+
+
+//**********   POINTER BEING FREED WAS NOT ALLOCATE

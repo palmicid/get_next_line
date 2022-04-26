@@ -1,5 +1,7 @@
 tester/
 GNL_util_test/
+.DS_Store
+
 
 # Prerequisites
 *.d

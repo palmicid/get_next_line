@@ -1,6 +1,9 @@
 #include "get_next_line.h"
 
 
+
+
+
 //find \n ret 1 if found 
 int	find_n(char *s)
 {
