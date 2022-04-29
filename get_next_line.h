@@ -34,15 +34,15 @@ typedef struct s_lstfd
 }					t_lstfd;
 
 
-char	*get_next_line(int fd);					// 
-void	rdline(t_lstfd *data);					// OK
-int		find_n(char *s);						// OK
-size_t	sp_strlen(const char *s, int mode);		// OK
-char	*ft_strjoin(char *s1, char *s2);		// OK
-char	*sp_strdup_reloc(t_lstfd *data);				// OK
-t_lstfd	*c_new_lst(int fd);
-t_lstfd	*delstruct(t_lstfd *tmp);
+char	*get_next_line(int fd);						// 
+char	*rdline(t_lstfd *cursor);	// 
+int		find_n(char *s);							// OK
+size_t	sp_strlen(const char *s, int mode);			// OK
 
+char	*sp_strdup_reloc(t_lstfd *data);			// OK
+t_lstfd	*new_or_find(t_lstfd *data,int fd);
+//t_lstfd *relist(t_lstfd *data, t_lstfd *tmp); 	bonus
+char	*sp_strjoin(char *s1, char *s2);			// OK
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 
 
