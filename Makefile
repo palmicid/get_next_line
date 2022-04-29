@@ -6,3 +6,12 @@ all:
 	@#$(CC) -fsanitize=address main.c get_next_line.c get_next_line_utils.c
 	@#valgrind --leak-check=full --show-leak-kinds=all ./a.out
 	@./a.out
+
+norm:
+	@echo "------------------------------------"
+	@echo " !!!!!!!!   NORMINETTE   !!!!!!!!"
+	@echo ""
+	@norminette -R CheckForbiddenSourceHeader *.c
+	@norminette -R CheckDefine *.h
+	@echo ""
+	@echo "------------------------------------"
