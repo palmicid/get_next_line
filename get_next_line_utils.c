@@ -34,21 +34,20 @@ size_t	sp_strlen(const char *s, int mode)
 	return (i);
 }
 
-//find \n ret 1 if found
-int find_n(char *s)
+int	find_n(char *s)
 {
-    int i;
+	int	i;
 
 	if (!s)
 		return (0);
-    i = 0;
-    while (s[i] != '\0')
-    {
+	i = 0;
+	while (s[i] != '\0')
+	{
 		if (s[i] == '\n')
 			return (1);
-        i++;
-    }
-    return (0);
+		i++;
+	}
+	return (0);
 }
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)

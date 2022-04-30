@@ -1,16 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: pruangde <pruangde@student.42bangkok.com>  +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/12 15:00:48 by pruangde          #+#    #+#             */
-/*   Updated: 2022/04/08 01:55:35 by pruangde         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*sp_strjoin(char *s1, char *s2)
 {
@@ -99,18 +87,28 @@ char	*rdline(t_lstfd *cursor)
 t_lstfd	*new_or_find(t_lstfd *data, int fd)
 {
 	t_lstfd	*current_fd;
+	t_lstfd	*prev;
 
 	if (!(data))
+		current_fd = create_list(fd);
+	else
 	{
-		data = (t_lstfd *)malloc(sizeof(t_lstfd));
-		if (!data)
-			return (NULL);
-		data->fd = fd;
-		data->rfd = 1;
-		data->str = NULL;
-		data->next = NULL;
+		while (data)
+		{
+			if (data->fd == fd)
+			{
+				current_fd = data;
+				return (current_fd);
+			}
+			else
+			{
+				prev = data;
+				data = data->next;
+			}
+		}
+		current_fd = create_list(fd);
+		prev->next = current_fd;
 	}
-	current_fd = data;
 	return (current_fd);
 }
 
@@ -133,9 +131,7 @@ char	*get_next_line(int fd)
 	}
 	if ((cursor->rfd <= 0) && !(cursor->str))
 	{
-		free(cursor);
-		cursor = NULL;
-		data = NULL;
+		data = list_reloc(data, fd);
 	}
 	return (ret);
 }
